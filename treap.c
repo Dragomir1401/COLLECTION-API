@@ -13,8 +13,7 @@ treap_create(int (*cmp)(void *, void *))
     srand(time(NULL));
     Treap_tree *tree = malloc(sizeof(Treap_tree));
     tree->compar = cmp;
-    if (tree == NULL)
-    {
+    if (tree == NULL) {
         return NULL;
     }
     tree->root = NULL;
@@ -102,6 +101,8 @@ int priority(Node *node)
     }
     return node->priority;
 }
+
+
 /* Rotire dreapta
  * Pentru a nu fi nevoie sa mentinem pointer catre nodul parinte,
  * se vor folosi pointeri la noduri
@@ -112,16 +113,11 @@ int priority(Node *node)
  *   /  \     		           /   \
  *  x   lrson                lrson  y
  */
-
-
-
-
 void rotate_right(Node **node)
 {
     Node *lson = (*node)->left;
     Node *lrson = (*node)->left->right;
 
-    // rotate
     lson->right = *node;
     (*node)->left = lrson;
 
@@ -147,7 +143,6 @@ void rotate_left(Node **node)
     Node *rson = (*node)->right;
     Node *rlson = (*node)->right->left;
 
-    // rotate
     rson->left = *node;
     (*node)->right = rlson;
 
@@ -172,31 +167,25 @@ void treap_insert(Node **node,
                   int (*compar)(void *, void *))
 {
 
-    if ((*node) == NULL)
-    {
+    if ((*node) == NULL) {
         *node = node_create(value, data_size);
         return;
     }
 
-    if (compar(value, (*node)->data) < 0)
-    {
+    if (compar(value, (*node)->data) < 0) {
         // go to left subtree
         treap_insert(&((*node)->left), value, data_size, compar);
+
         // check if heap property is correct
         if (priority((*node)->left) > priority(*node))
-        {
             rotate_right(node);
-        }
-    }
-    else
-    {
+    } else {
         // go to right subtree
         treap_insert(&((*node)->right), value, data_size, compar);
+
         // check if heap property is correct
         if (priority((*node)->right) > priority(*node))
-        {
             rotate_left(node);
-        }
     }
 }
 
@@ -217,32 +206,22 @@ void treap_delete(Node **node,
                   int (*compar)(void *, void *))
 {
     if (node == NULL)
-    {
         return;
-    }
 
-    if (compar(value, (*node)->data) < 0)
-    { // go to left subtree
+    if (compar(value, (*node)->data) < 0) {
         treap_delete(&((*node)->left), value, data_size, compar);
-    }
-    else if (compar(value, (*node)->data) > 0)
-    { // go to right subtree
+
+    } else if (compar(value, (*node)->data) > 0) {
         treap_delete(&((*node)->right), value, data_size, compar);
-        // If the node with "value" has been found
-    }
-    else if ((*node)->left == NULL && (*node)->right == NULL)
-    { // if it is a leaf
+
+    } else if ((*node)->left == NULL && (*node)->right == NULL) {
         node_free(node);
         *node = NULL;
-        // compare priorities between two children
-    }
-    else if (priority((*node)->left) > priority((*node)->right))
-    {
+
+    } else if (priority((*node)->left) > priority((*node)->right)) {
         rotate_right(node);
         treap_delete(node, value, data_size, compar);
-    }
-    else
-    {
+    } else {
         rotate_left(node);
         treap_delete(node, value, data_size, compar);
     }
@@ -255,33 +234,18 @@ void *
 get_key(Node *node, void *value, int data_size, int (*compar)(void *, void *))
 {
     if (compar(value, node->data) == 0)
-    {
         return node;
-    }
 
-    // go to left subtree
-    if (compar(value, node->data) <= 0)
-    {
-        if (node->left != NULL)
-        {
+    if (compar(value, node->data) <= 0) {
+        if (node->left != NULL) 
             return get_key(node->left, value, data_size, compar);
-        }
         else
-        {
             return NULL;
-        }
-        // go to right subtree
-    }
-    else
-    {
+    } else {
         if (node->right != NULL)
-        {
             return get_key(node->right, value, data_size, compar);
-        }
         else
-        {
             return NULL;
-        }
     }
 }
 
