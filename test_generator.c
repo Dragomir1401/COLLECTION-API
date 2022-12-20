@@ -6,8 +6,8 @@
 #include <string.h>
 #define MIN_MAGNITUDE 100
 #define MID_MAGNITUDE 50000
-#define MAX_MAGNITUDE 999999
-#define MAX_NUMBER 1000000
+#define MAX_MAGNITUDE 5000000
+#define MAX_NUMBER 500000
 #define MID_NUMBER 50000
 
 long randlong(long lower, long upper)
@@ -250,7 +250,7 @@ void add_remove_find_and_replace_test(char *in_file, long magnitude, long delete
                 }
                 else
                 {
-                    fprintf(fptr, "%d %ld\n", 3, randlong(0, 1000));
+                    fprintf(fptr, "%d %ld %ld\n", 3, randlong(0, 1000), randlong(0, 1000));
                     replace_counter++;
                 }
             }
@@ -327,7 +327,7 @@ void mix_test(char *in_file, long magnitude, long delete_frequency,
             }
             else
             {
-                fprintf(fptr, "%d %ld\n", 3, randlong(0, max_element));
+                fprintf(fptr, "%d %ld %ld\n", 3, randlong(0, max_element), randlong(0, max_element));
                 replace_counter++;
             }
         }
@@ -359,10 +359,10 @@ long main()
             magnitude_array[i] = i * (i + 1) * (i + 3) + 987;
 
         if (i >= 24 && i < 26)
-            magnitude_array[i] = (i - 7) * (i - 8) * (i - 9) * (i - 9) + i * i * i + i * i + 2312;
+            magnitude_array[i] = (i - 15) * (i - 12) * (i - 11) * (i - 9) + i * i * i + i * i + 2312;
 
         if (i >= 26)
-            magnitude_array[i] = i * i * i * i + (i - 3) * i * (i - 2) + i * i + 23712;
+            magnitude_array[i] = (i - 15) * (i + 20) * i * i + (i - 3) * i * (i - 2) + i * i + 23712;
     }
 
     for (long i = 0; i < 30; i++)
@@ -398,11 +398,13 @@ long main()
 
         // create some mixed commands with bigger numbers of mid size
         if (i + 1 > 20 && i + 1 <= 25)
-            mix_test(in_string, magnitude_array[i], randlong(9, 18), randlong(5, 15), 200, randlong(8, 12), 420, randlong(50, 70), MAX_NUMBER);
+            mix_test(in_string, magnitude_array[i], randlong(9, 18), randlong(5, 15), 200, randlong(8, 12), 420, randlong(1000, 2000), MAX_NUMBER);
 
         // create some mixed commands with bigger numbers of big sizes
         if (i + 1 > 25 && i + 1 <= 30)
-            mix_test(in_string, magnitude_array[i], randlong(15, 25), randlong(12, 15), 700, randlong(16, 20), 920, randlong(90, 140), MAX_NUMBER);
+            mix_test(in_string, magnitude_array[i], randlong(9, 18), randlong(5, 15), 200, randlong(8, 12), 420, randlong(1000, 2000), MAX_NUMBER);
+
+        // mix_test(in_string, magnitude_array[i], randlong(15, 25), randlong(12, 15), 700, randlong(16, 20), 920, randlong(1500, 2500), MAX_NUMBER);
 
         free(in_string);
     }
