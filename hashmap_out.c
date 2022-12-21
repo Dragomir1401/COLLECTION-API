@@ -5,7 +5,7 @@
 #include <time.h>
 
 #define BUFFER_MAX 100
-#define HMAX 1999999
+#define HMAX 3999999
 char *parse_input_file(long i)
 {
     char *string = (char *)malloc(20 * sizeof(char));
@@ -94,7 +94,7 @@ char *parse_output_file(long i)
 
 int main()
 {
-    FILE *res = fopen("time_results_hashmap_with_print.txt", "a");
+    FILE *res = fopen("time_results_hashmap.txt", "a");
     fprintf(res, "ITERATION FOR COMPUTING AVERAGE\n\n");
 
     // iterate through tests
@@ -119,7 +119,7 @@ int main()
                 char *token = strtok(chunk, " ");
                 int command = atoi(token);
 
-                long arg1 = 0, arg2 = 0;
+                int arg1 = 0, arg2 = 0;
                 // loop through the string to extract all other tokens
                 if (command >= 0 && command <= 3)
                 {
@@ -150,7 +150,7 @@ int main()
                     ht_put(ht, &arg2, sizeof(long), &arg2, sizeof(long));
                     break;
                 case 4:
-                    ht_print(ht, out);
+                    // ht_print(ht, out);
                     break;
 
                 default:

@@ -220,7 +220,7 @@ compare_function_ints(void *a, void *b)
     unsigned int *str_a = (unsigned int *)a;
     unsigned int *str_b = (unsigned int *)b;
 
-    return str_a - str_b;
+    return *str_a - *str_b;
 }
 
 void allocate_buckets(hashtable_t *ht)
@@ -256,7 +256,7 @@ ht_has_key(hashtable_t *ht, void *key)
     if (!ht)
         return 0;
 
-    unsigned int hash = ht->hash_function(key) % ht->hmax;
+    uint32_t hash = ht->hash_function(key) % ht->hmax;
 
     ll_node_t *node = ht->buckets[hash]->head;
 
@@ -337,7 +337,6 @@ void ht_put(hashtable_t *ht, void *key, unsigned int key_size,
     double load_factor = (double)ht->size / ht->hmax;
     if (load_factor > 1)
     {
-        printf("///////////////////////////////////RESIZING NOW------ at HMAX %d\n", ht->hmax);
         ht_resize(ht);
     }
 

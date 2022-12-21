@@ -7,7 +7,7 @@
 #define MIN_MAGNITUDE 100
 #define MID_MAGNITUDE 50000
 #define MAX_MAGNITUDE 5000000
-#define MAX_NUMBER 500000
+#define MAX_NUMBER 9000000000
 #define MID_NUMBER 50000
 
 long randlong(long lower, long upper)
@@ -362,7 +362,7 @@ long main()
             magnitude_array[i] = (i - 15) * (i - 12) * (i - 11) * (i - 9) * 7 + i * i * i + i * i + 2312;
 
         if (i >= 26)
-            magnitude_array[i] = (i - 15) * (i + 20) * i * i * 2 + (i - 3) * i * (i - 2) + i * i + 23712;
+            magnitude_array[i] = (i - 8) * (i + 20) * i * i * 4 + (i - 3) * i * (i - 2) + i * i + 23712;
     }
 
     for (long i = 0; i < 30; i++)

@@ -93,7 +93,7 @@ char *parse_output_file(long i)
 
 int main()
 {
-    FILE *res = fopen("time_results_treap_with_print.txt", "a");
+    FILE *res = fopen("time_results_treap.txt", "a");
     fprintf(res, "ITERATION FOR COMPUTING AVERAGE\n\n");
 
     // iterate through tests
@@ -134,15 +134,14 @@ int main()
                         arg2 = atoi(token);
                 }
 
-                Node *removed_node;
                 switch (command)
                 {
                 case 0:
-                    treap_insert(&treap->root, arg1, treap->compar);
+                    if (!get_key(treap->root, arg1, treap->compar))
+                        treap_insert(&treap->root, arg1, treap->compar);
                     break;
                 case 1:
-                    removed_node = treap_pop(&treap->root, treap->compar);
-                    free(removed_node);
+                    treap_delete(&treap->root, arg1, treap->compar);
                     break;
                 case 2:
                     if (get_key(treap->root, arg1, treap->compar))
@@ -152,10 +151,12 @@ int main()
 
                     break;
                 case 3:
-                    treap_insert(&treap->root, arg2, treap->compar);
+                    if (!get_key(treap->root, arg2, treap->compar))
+                        treap_insert(&treap->root, arg2, treap->compar);
                     break;
                 case 4:
-                    printTreap(out, treap->root);
+                    // printTreap(out, treap->root);
+                    // fprintf(out, "\n");
                     break;
 
                 default:

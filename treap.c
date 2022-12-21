@@ -177,40 +177,89 @@ void treap_insert(Node **node, int value, int (*compar)(int, int))
  */
 void treap_delete(Node **node, int value, int (*compar)(int, int))
 {
-    if (*node == NULL || node == NULL)
+    // Check if the tree is empty
+    if (*node == NULL)
     {
         return;
     }
 
-    if (compar(value, (*node)->data) < 0)
-    { // go to left subtree
-        treap_delete(&((*node)->left), value, compar);
-    }
-    else if (compar(value, (*node)->data) > 0)
-    { // go to right subtree
-        treap_delete(&((*node)->right), value, compar);
-        // If the node with "value" has been found
-    }
-    else if ((*node)->left == NULL &&
-             (*node)->right == NULL)
-    { // if it is a leaf
-        node_free(node);
-        *node = NULL;
-        // compare priorities between two children
-    }
-    else if (priority((*node)->left) > priority((*node)->right))
+    // Compare the value to be deleted with the current node's value
+    int comp_result = compar(value, (*node)->data);
+
+    // If the value to be deleted is smaller than the current node's value,
+    // recursively call treap_delete on the left child
+    if (comp_result < 0)
     {
-        rotate_right(node);
-        treap_delete(&((*node)->right), value, compar);
+        treap_delete(&(*node)->left, value, compar);
+        // After deleting the node, check if the treap properties are still maintained
+        // If not, perform a right rotation
+        if ((*node)->left != NULL && (*node)->left->priority > (*node)->priority)
+        {
+            rotate_right(node);
+        }
+        return;
     }
+
+    // If the value to be deleted is larger than the current node's value,
+    // recursively call treap_delete on the right child
+    if (comp_result > 0)
+    {
+        treap_delete(&(*node)->right, value, compar);
+        // After deleting the node, check if the treap properties are still maintained
+        // If not, perform a left rotation
+        if ((*node)->right != NULL && (*node)->right->priority > (*node)->priority)
+        {
+            rotate_left(node);
+        }
+        return;
+    }
+
+    // If we reach this point, it means that the value to be deleted has been found
+    Node *to_delete = *node;
+
+    // If the current node has no children (i.e. it is a leaf node), simply delete it
+    if ((*node)->left == NULL && (*node)->right == NULL)
+    {
+        *node = NULL;
+        free(to_delete);
+    }
+    // If the current node has only one child, delete it and replace it with its child
+    else if ((*node)->left == NULL)
+    {
+        *node = (*node)->right;
+        free(to_delete);
+    }
+    else if ((*node)->right == NULL)
+    {
+        *node = (*node)->left;
+        free(to_delete);
+    }
+    // If the current node has two children, find the in-order successor (i.e. the smallest
+    // value in the right subtree) and delete it. Then, replace the current node with the
+    // in-order successor
     else
     {
-        rotate_left(node);
-        treap_delete(&((*node)->left), value, compar);
+        Node *successor = (*node)->right;
+        while (successor->left != NULL)
+        {
+            successor = successor->left;
+        }
+        (*node)->data = successor->data;
+        treap_delete(&(*node)->right, successor->data, compar);
+        // After deleting the node, check if the treap properties are still maintained
+        // If not, perform a left rotation
+        if ((*node)->right != NULL && (*node)->right->priority > (*node)->priority)
+        {
+            rotate_left(node);
+        }
     }
 }
+
 void *get_key(Node *node, int value, int (*compar)(int, int))
 {
+    if (!node)
+        return NULL;
+
     if (compar(value, node->data) == 0)
     {
         return node;
@@ -251,29 +300,4 @@ void printTreap(FILE *out, Node *root)
 
     printTreap(out, root->left);
     printTreap(out, root->right);
-}
-
-/* get the max element from the treap */
-Node *treap_peek(Node *node)
-{
-    if (node == NULL)
-    {
-        printf("The treap is empty");
-        return NULL;
-    }
-
-    if (node->right == NULL)
-    {
-        return node;
-    }
-    Node *max_node = treap_peek(node->right);
-    return max_node;
-}
-
-Node *treap_pop(Node **node, int (*compar)(int, int))
-{
-    Node *removed_node = malloc(sizeof(Node));
-    removed_node->data = (treap_peek(*node))->data;
-    treap_delete(node, removed_node->data, compar);
-    return removed_node;
 }
