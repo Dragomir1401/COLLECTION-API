@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include "hashmap.h"
 #include <string.h>
+#include <time.h>
+
 #define BUFFER_MAX 100
-#define HMAX 999999
+#define HMAX 1999999
 char *parse_input_file(long i)
 {
     char *string = (char *)malloc(20 * sizeof(char));
@@ -92,12 +94,14 @@ char *parse_output_file(long i)
 
 int main()
 {
+    FILE *res = fopen("time_results_hashmap_with_print.txt", "a");
+    fprintf(res, "ITERATION FOR COMPUTING AVERAGE\n\n");
 
     // iterate through tests
-    for (long i = 0; i < 30; i++)
+    for (int i = 0; i < 30; i++)
     {
         hashtable_t *ht = ht_create(HMAX, hash_function, compare_function_ints);
-        if (i == 25)
+        if (i < 40)
         {
             char *in_file = parse_input_file(i);
             char *out_file = parse_output_file(i);
@@ -106,6 +110,8 @@ int main()
             FILE *out = fopen(out_file, "w");
             char *chunk = malloc(BUFFER_MAX);
 
+            clock_t t;
+            t = clock();
             // read line by line
             while (fgets(chunk, BUFFER_MAX, in) != NULL)
             {
@@ -152,6 +158,11 @@ int main()
                 }
             }
 
+            t = clock() - t;
+            double time_taken = ((double)t) / CLOCKS_PER_SEC; // in seconds
+
+            fprintf(res, "TEST %d took %f seconds to execute.\n", i + 1, time_taken);
+
             free(chunk);
             free(in_file);
             free(out_file);
@@ -160,5 +171,9 @@ int main()
         }
         ht_free(ht);
     }
+
+    fprintf(res, "\n\n");
+
+    fclose(res);
     return 0;
 }

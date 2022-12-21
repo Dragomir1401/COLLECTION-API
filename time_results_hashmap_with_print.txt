@@ -1,0 +1,170 @@
+ITERATION FOR COMPUTING AVERAGE
+
+TEST 1 took 0.000015 seconds to execute.
+TEST 2 took 0.000024 seconds to execute.
+TEST 3 took 0.000031 seconds to execute.
+TEST 4 took 0.000034 seconds to execute.
+TEST 5 took 0.000050 seconds to execute.
+TEST 6 took 0.000043 seconds to execute.
+TEST 7 took 0.000054 seconds to execute.
+TEST 8 took 0.000070 seconds to execute.
+TEST 9 took 0.000071 seconds to execute.
+TEST 10 took 0.000066 seconds to execute.
+TEST 11 took 0.000128 seconds to execute.
+TEST 12 took 0.000592 seconds to execute.
+TEST 13 took 0.000666 seconds to execute.
+TEST 14 took 0.000769 seconds to execute.
+TEST 15 took 0.000864 seconds to execute.
+TEST 16 took 0.098581 seconds to execute.
+TEST 17 took 0.129103 seconds to execute.
+TEST 18 took 0.163400 seconds to execute.
+TEST 19 took 0.153290 seconds to execute.
+TEST 20 took 0.188093 seconds to execute.
+TEST 21 took 0.002742 seconds to execute.
+TEST 22 took 0.013048 seconds to execute.
+TEST 23 took 0.013129 seconds to execute.
+TEST 24 took 0.008399 seconds to execute.
+TEST 25 took 0.243462 seconds to execute.
+TEST 26 took 0.319915 seconds to execute.
+TEST 27 took 3.195926 seconds to execute.
+TEST 28 took 4.497069 seconds to execute.
+TEST 29 took 5.820395 seconds to execute.
+TEST 30 took 8.083030 seconds to execute.
+
+
+ITERATION FOR COMPUTING AVERAGE
+
+TEST 1 took 0.000018 seconds to execute.
+TEST 2 took 0.000029 seconds to execute.
+TEST 3 took 0.000032 seconds to execute.
+TEST 4 took 0.000061 seconds to execute.
+TEST 5 took 0.000061 seconds to execute.
+TEST 6 took 0.000049 seconds to execute.
+TEST 7 took 0.000060 seconds to execute.
+TEST 8 took 0.000093 seconds to execute.
+TEST 9 took 0.000079 seconds to execute.
+TEST 10 took 0.000108 seconds to execute.
+TEST 11 took 0.000144 seconds to execute.
+TEST 12 took 0.000683 seconds to execute.
+TEST 13 took 0.000775 seconds to execute.
+TEST 14 took 0.000769 seconds to execute.
+TEST 15 took 0.000990 seconds to execute.
+TEST 16 took 0.138366 seconds to execute.
+TEST 17 took 0.130074 seconds to execute.
+TEST 18 took 0.138228 seconds to execute.
+TEST 19 took 0.149311 seconds to execute.
+TEST 20 took 0.201860 seconds to execute.
+TEST 21 took 0.002978 seconds to execute.
+TEST 22 took 0.012593 seconds to execute.
+TEST 23 took 0.012793 seconds to execute.
+TEST 24 took 0.007840 seconds to execute.
+TEST 25 took 0.246199 seconds to execute.
+TEST 26 took 0.326865 seconds to execute.
+TEST 27 took 3.192933 seconds to execute.
+TEST 28 took 4.618835 seconds to execute.
+TEST 29 took 6.884748 seconds to execute.
+TEST 30 took 7.778277 seconds to execute.
+
+
+ITERATION FOR COMPUTING AVERAGE
+
+TEST 1 took 0.000020 seconds to execute.
+TEST 2 took 0.000028 seconds to execute.
+TEST 3 took 0.000040 seconds to execute.
+TEST 4 took 0.000036 seconds to execute.
+TEST 5 took 0.000061 seconds to execute.
+TEST 6 took 0.000060 seconds to execute.
+TEST 7 took 0.000056 seconds to execute.
+TEST 8 took 0.000085 seconds to execute.
+TEST 9 took 0.000071 seconds to execute.
+TEST 10 took 0.000082 seconds to execute.
+TEST 11 took 0.000147 seconds to execute.
+TEST 12 took 0.000631 seconds to execute.
+TEST 13 took 0.000692 seconds to execute.
+TEST 14 took 0.000835 seconds to execute.
+TEST 15 took 0.000881 seconds to execute.
+TEST 16 took 0.103933 seconds to execute.
+TEST 17 took 0.118702 seconds to execute.
+TEST 18 took 0.134658 seconds to execute.
+TEST 19 took 0.206810 seconds to execute.
+TEST 20 took 0.243988 seconds to execute.
+TEST 21 took 0.003163 seconds to execute.
+TEST 22 took 0.017559 seconds to execute.
+TEST 23 took 0.016267 seconds to execute.
+TEST 24 took 0.008576 seconds to execute.
+TEST 25 took 0.260140 seconds to execute.
+TEST 26 took 0.328163 seconds to execute.
+TEST 27 took 3.271107 seconds to execute.
+TEST 28 took 4.415163 seconds to execute.
+TEST 29 took 5.660859 seconds to execute.
+TEST 30 took 7.025751 seconds to execute.
+
+
+ITERATION FOR COMPUTING AVERAGE
+
+TEST 1 took 0.000016 seconds to execute.
+TEST 2 took 0.000023 seconds to execute.
+TEST 3 took 0.000038 seconds to execute.
+TEST 4 took 0.000041 seconds to execute.
+TEST 5 took 0.000086 seconds to execute.
+TEST 6 took 0.000042 seconds to execute.
+TEST 7 took 0.000109 seconds to execute.
+TEST 8 took 0.000069 seconds to execute.
+TEST 9 took 0.000073 seconds to execute.
+TEST 10 took 0.000074 seconds to execute.
+TEST 11 took 0.000125 seconds to execute.
+TEST 12 took 0.000642 seconds to execute.
+TEST 13 took 0.000911 seconds to execute.
+TEST 14 took 0.000758 seconds to execute.
+TEST 15 took 0.000842 seconds to execute.
+TEST 16 took 0.096327 seconds to execute.
+TEST 17 took 0.102228 seconds to execute.
+TEST 18 took 0.133709 seconds to execute.
+TEST 19 took 0.146523 seconds to execute.
+TEST 20 took 0.186742 seconds to execute.
+TEST 21 took 0.002686 seconds to execute.
+TEST 22 took 0.011987 seconds to execute.
+TEST 23 took 0.013064 seconds to execute.
+TEST 24 took 0.006980 seconds to execute.
+TEST 25 took 0.238901 seconds to execute.
+TEST 26 took 0.320271 seconds to execute.
+TEST 27 took 3.118011 seconds to execute.
+TEST 28 took 4.403708 seconds to execute.
+TEST 29 took 5.807579 seconds to execute.
+TEST 30 took 7.239182 seconds to execute.
+
+
+ITERATION FOR COMPUTING AVERAGE
+
+TEST 1 took 0.000020 seconds to execute.
+TEST 2 took 0.000023 seconds to execute.
+TEST 3 took 0.000027 seconds to execute.
+TEST 4 took 0.000033 seconds to execute.
+TEST 5 took 0.000052 seconds to execute.
+TEST 6 took 0.000043 seconds to execute.
+TEST 7 took 0.000055 seconds to execute.
+TEST 8 took 0.000068 seconds to execute.
+TEST 9 took 0.000071 seconds to execute.
+TEST 10 took 0.000073 seconds to execute.
+TEST 11 took 0.000121 seconds to execute.
+TEST 12 took 0.000694 seconds to execute.
+TEST 13 took 0.000722 seconds to execute.
+TEST 14 took 0.000728 seconds to execute.
+TEST 15 took 0.000817 seconds to execute.
+TEST 16 took 0.096813 seconds to execute.
+TEST 17 took 0.104035 seconds to execute.
+TEST 18 took 0.135233 seconds to execute.
+TEST 19 took 0.147483 seconds to execute.
+TEST 20 took 0.185604 seconds to execute.
+TEST 21 took 0.002732 seconds to execute.
+TEST 22 took 0.012103 seconds to execute.
+TEST 23 took 0.013211 seconds to execute.
+TEST 24 took 0.006964 seconds to execute.
+TEST 25 took 0.238825 seconds to execute.
+TEST 26 took 0.323332 seconds to execute.
+TEST 27 took 3.109332 seconds to execute.
+TEST 28 took 4.399624 seconds to execute.
+TEST 29 took 5.641312 seconds to execute.
+TEST 30 took 7.021560 seconds to execute.
+
+

@@ -359,10 +359,10 @@ long main()
             magnitude_array[i] = i * (i + 1) * (i + 3) + 987;
 
         if (i >= 24 && i < 26)
-            magnitude_array[i] = (i - 15) * (i - 12) * (i - 11) * (i - 9) + i * i * i + i * i + 2312;
+            magnitude_array[i] = (i - 15) * (i - 12) * (i - 11) * (i - 9) * 7 + i * i * i + i * i + 2312;
 
         if (i >= 26)
-            magnitude_array[i] = (i - 15) * (i + 20) * i * i + (i - 3) * i * (i - 2) + i * i + 23712;
+            magnitude_array[i] = (i - 15) * (i + 20) * i * i * 2 + (i - 3) * i * (i - 2) + i * i + 23712;
     }
 
     for (long i = 0; i < 30; i++)
@@ -403,8 +403,6 @@ long main()
         // create some mixed commands with bigger numbers of big sizes
         if (i + 1 > 25 && i + 1 <= 30)
             mix_test(in_string, magnitude_array[i], randlong(9, 18), randlong(5, 15), 200, randlong(8, 12), 420, randlong(10000, 15000), MAX_NUMBER);
-
-        // mix_test(in_string, magnitude_array[i], randlong(15, 25), randlong(12, 15), 700, randlong(16, 20), 920, randlong(1500, 2500), MAX_NUMBER);
 
         free(in_string);
     }
