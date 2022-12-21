@@ -3,7 +3,7 @@
 #include "hashmap.h"
 #include <string.h>
 #define BUFFER_MAX 100
-#define HMAX 7
+#define HMAX 999999
 char *parse_input_file(long i)
 {
     char *string = (char *)malloc(20 * sizeof(char));
@@ -96,8 +96,8 @@ int main()
     // iterate through tests
     for (long i = 0; i < 30; i++)
     {
-        hashtable_t *ht = ht_create(HMAX, hash_function_string, compare_function_longs);
-        if (i < 31)
+        hashtable_t *ht = ht_create(HMAX, hash_function, compare_function_ints);
+        if (i == 25)
         {
             char *in_file = parse_input_file(i);
             char *out_file = parse_output_file(i);
@@ -129,7 +129,6 @@ int main()
                         arg2 = atoi(token);
                 }
 
-                int res_code;
                 switch (command)
                 {
                 case 0:
@@ -139,8 +138,7 @@ int main()
                     ht_remove_entry(ht, &arg1);
                     break;
                 case 2:
-                    res_code = ht_has_key(ht, &arg1);
-                    fprintf(out, "%d\n", res_code);
+                    fprintf(out, "%d\n", ht_has_key(ht, &arg1));
                     break;
                 case 3:
                     ht_put(ht, &arg2, sizeof(long), &arg2, sizeof(long));

@@ -97,7 +97,7 @@ int main()
     for (long i = 0; i < 30; i++)
     {
         Treap_tree *treap = treap_create(compare_ints);
-        if (i < 35)
+        if (i == 25)
         {
             char *in_file = parse_input_file(i);
             char *out_file = parse_output_file(i);

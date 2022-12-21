@@ -4,57 +4,55 @@
 #include <string.h>
 #include "hashmap.h"
 #include <stdint.h>
-#define MAX_STRING_SIZE 256
-#define HMAX 1000000
-#define MAX_WORD 100
-
 linked_list_t *
 ll_create(unsigned int data_size)
 {
-    // Create list function
-    linked_list_t *ll;
+    linked_list_t *new_list = malloc(sizeof(linked_list_t));
 
-    ll = malloc(sizeof(*ll));
+    if (!new_list)
+        return NULL;
 
-    ll->head = NULL;
-    ll->data_size = data_size;
-    ll->size = 0;
+    new_list->data_size = data_size;
+    new_list->size = 0;
+    new_list->head = NULL;
 
-    return ll;
+    return new_list;
 }
 
-void ll_add_nth_node(linked_list_t *list, unsigned int n, const void *new_data)
+void ll_add_nth_node(linked_list_t *list, unsigned int n, void *new_data)
 {
-    ll_node_t *prev, *curr;
-    ll_node_t *new_node;
-
     if (!list)
         return;
 
-    /* n >= list->size means adding a new node to the final of list*/
-    if (n > list->size)
-        n = list->size;
+    ll_node_t *new_node = malloc(sizeof(ll_node_t));
 
-    curr = list->head;
-    prev = NULL;
-    while (n > 0)
-    {
-        prev = curr;
-        curr = curr->next;
-        --n;
-    }
+    if (!new_node)
+        return;
 
-    new_node = malloc(sizeof(*new_node));
+    new_node->next = NULL;
     new_node->data = malloc(list->data_size);
     memcpy(new_node->data, new_data, list->data_size);
 
-    new_node->next = curr;
-    if (prev == NULL)
-        list->head = new_node;
-    else
-        prev->next = new_node;
-
     list->size++;
+
+    if (!list->head || n == 0)
+    {
+        new_node->next = list->head;
+        list->head = new_node;
+        return;
+    }
+
+    ll_node_t *curr_node = list->head;
+    ll_node_t *prev_node = NULL;
+
+    for (size_t i = 0; i < n && i < list->size; i++)
+    {
+        prev_node = curr_node;
+        curr_node = curr_node->next;
+    }
+
+    prev_node->next = new_node;
+    new_node->next = curr_node;
 }
 
 ll_node_t *
@@ -62,10 +60,12 @@ ll_remove_nth_node(linked_list_t *list, unsigned int n)
 {
     ll_node_t *prev, *curr;
 
-    if (!list || !list->head)
+    if (!list)
         return NULL;
 
-    /* n >= list->size - 1 means eliminating last node */
+    if (!list->head)
+        return NULL;
+
     if (n > list->size - 1)
         n = list->size - 1;
 
@@ -78,7 +78,7 @@ ll_remove_nth_node(linked_list_t *list, unsigned int n)
         --n;
     }
 
-    if (prev == NULL)
+    if (!prev)
         list->head = curr->next;
     else
         prev->next = curr->next;
@@ -97,7 +97,21 @@ ll_get_size(linked_list_t *list)
     return list->size;
 }
 
-void ll_free(linked_list_t **pp_list)
+void ll_free(linked_list_t **pp_list, void (*free_func)(void *))
+{
+    if (pp_list == NULL || *pp_list == NULL)
+        return;
+
+    while (ll_get_size(*pp_list) > 0)
+    {
+        ll_node_t *currNode = ll_remove_nth_node(*pp_list, 0);
+        free_func(currNode);
+    }
+
+    free(*pp_list);
+    *pp_list = NULL;
+}
+void ll_free_direct(linked_list_t **pp_list)
 {
     ll_node_t *currNode;
 
@@ -117,94 +131,64 @@ void ll_free(linked_list_t **pp_list)
     *pp_list = NULL;
 }
 
-long compare_function_longs(void *a, void *b)
+unsigned int hash_function(void *a)
 {
-    // Function to compare longs
-    long *cmp_a = (long *)a;
-    long *cmp_b = (long *)b;
-
-    return *cmp_a - *cmp_b;
+    unsigned int x = *(unsigned int *)a;
+    x = ((x >> 16) ^ x) * 0x45d9f3b;
+    x = ((x >> 16) ^ x) * 0x45d9f3b;
+    x = (x >> 16) ^ x;
+    return x;
 }
 
-unsigned int
-hash_function_string(void *a)
+void ll_concat(linked_list_t *dest, linked_list_t *src)
 {
-    /*
-     * Credits: http://www.cse.yorku.ca/~oz/hash.html
-     */
-    unsigned char *puchar_a = (unsigned char *)a;
-    uint64_t hash = 5381;
-    int c;
-
-    while ((c = *puchar_a++))
-        hash = ((hash << 5u) + hash) + c; /* hash * 33 + c */
-
-    return hash;
-}
-
-hashtable_t *
-ht_create(unsigned int hmax, unsigned int (*hash_function)(void *),
-          long (*compare_function)(void *, void *))
-{
-    // Alloc hashtable
-    hashtable_t *ht = malloc(sizeof(hashtable_t));
-    ht->buckets = malloc(hmax * sizeof(linked_list_t));
-
-    // Alloc buckets
-    for (unsigned int i = 0; i < hmax; i++)
-        ht->buckets[i] = ll_create(sizeof(info));
-
-    // Inititalise hashtable details
-    ht->hash_function = hash_function;
-    ht->compare_function = compare_function;
-    ht->size = 0;
-    ht->hmax = hmax;
-
-    return ht;
-}
-
-int ht_has_key(hashtable_t *ht, void *key)
-{
-    // Verifies if a hashtable has a key
-    int index = ht->hash_function(key) % ht->hmax;
-    ll_node_t *aux = ht->buckets[index]->head;
-    while (aux)
-    {
-        if (!ht->compare_function(key, ((info *)aux->data)->key))
-            return 1;
-        aux = aux->next;
-    }
-
-    return 0;
-}
-
-void *
-ht_get(hashtable_t *ht, void *key)
-{
-    // Verifies if a ht has key and returns value
-    int index = ht->hash_function(key) % ht->hmax;
-    ll_node_t *aux = ht->buckets[index]->head;
-    while (aux)
-    {
-        if (!ht->compare_function(key, ((info *)aux->data)->key))
-            return ((info *)aux->data)->value;
-
-        aux = aux->next;
-    }
-
-    return NULL;
-}
-
-void ht_rehash(hashtable_t *hashtable, info *elem)
-{
-    // Function to rehash element and add it to a hashtable
-    if (!hashtable)
+    if (!src || !dest)
         return;
 
-    unsigned int hash = hashtable->hash_function(elem->key) % hashtable->hmax;
-    linked_list_t *list = hashtable->buckets[hash];
+    if (!src->head)
+    {
+        free(src);
+        return;
+    }
 
-    ll_add_nth_node(list, 0, elem);
+    if (!dest->head)
+    {
+        dest->head = src->head;
+        dest->size += src->size;
+        free(src);
+        return;
+    }
+
+    ll_node_t *node = dest->head;
+    for (; node->next; node = node->next)
+        ;
+
+    node->next = src->head;
+    dest->size += src->size;
+
+    free(src);
+}
+
+void ll_free_node(void *node)
+{
+    free(((ll_node_t *)node)->data);
+    free(node);
+}
+int is_prime(int x)
+{
+    if (x % 2)
+        return 0;
+    for (int d = 3; d * d <= x; d += 2)
+        if (x % d == 0)
+            return 0;
+    return 1;
+}
+int nearest_prime(int x)
+{
+    for (int res = x; res > 0; res++)
+        if (is_prime(res))
+            return res;
+    return 0;
 }
 
 void ht_print(hashtable_t *hashtable, FILE *out)
@@ -216,6 +200,7 @@ void ht_print(hashtable_t *hashtable, FILE *out)
     {
         if (hashtable->buckets[cnt])
         {
+            // fprintf(out, "\n----------BUCKET NR ::: %d\n", cnt);
             ll_node_t *curr = hashtable->buckets[cnt]->head;
             while (curr != NULL)
             {
@@ -229,189 +214,227 @@ void ht_print(hashtable_t *hashtable, FILE *out)
     fprintf(out, "\n");
 }
 
-linked_list_t *ht_create_list_from_ht(hashtable_t *hashtable)
+unsigned int
+compare_function_ints(void *a, void *b)
 {
-    // Create a list
-    linked_list_t *list = ll_create(hashtable->buckets[0]->data_size);
-    unsigned int cnt = 0;
+    unsigned int *str_a = (unsigned int *)a;
+    unsigned int *str_b = (unsigned int *)b;
 
-    // For each bucket
-    while (cnt < hashtable->hmax)
-    {
-        if (hashtable->buckets[cnt])
-        {
-            // If list is empty we put pointer head to old bucket
-            if (!list->head)
-            {
-                list->head = hashtable->buckets[cnt]->head;
-                list->size += hashtable->buckets[cnt]->size;
-                free(hashtable->buckets[cnt]);
-            }
-            else
-            {
-                // We put pointer to last element in list the head of the bucket
-                ll_node_t *last_curr = list->head;
-                while (last_curr->next)
-                    last_curr = last_curr->next;
-
-                last_curr->next = hashtable->buckets[cnt]->head;
-                list->size += hashtable->buckets[cnt]->size;
-                // Free the original bucket
-                free(hashtable->buckets[cnt]);
-            }
-        }
-        cnt++;
-    }
-    // Return the created list
-    return list;
+    return str_a - str_b;
 }
 
-void ht_resize(hashtable_t *hashtable)
+void allocate_buckets(hashtable_t *ht)
 {
-    // Function to resize a hashtable
-    // Create a list with entries from old hashtable
-    linked_list_t *entries = ht_create_list_from_ht(hashtable);
+    for (unsigned int i = 0; i < ht->hmax; i++)
+        ht->buckets[i] = ll_create(sizeof(info));
+}
 
-    // Realloc hashtable with double its size
-    hashtable->hmax = hashtable->hmax * 2;
-    hashtable->buckets = realloc(hashtable->buckets,
-                                 hashtable->hmax * sizeof(linked_list_t *));
+hashtable_t *
+ht_create(unsigned int hmax, unsigned int (*hash_function)(void *),
+          unsigned int (*compare_function)(void *, void *))
+{
+    hashtable_t *new_table = malloc(sizeof(hashtable_t));
 
-    // Recreate buckets
-    for (uint32_t i = 0; i < hashtable->hmax; i++)
-        hashtable->buckets[i] = ll_create(sizeof(info));
+    if (!new_table)
+        return NULL;
 
-    // Rehash every entry which we put int the list
-    ll_node_t *curr = entries->head;
-    while (curr)
+    new_table->buckets = malloc(hmax * sizeof(linked_list_t *));
+
+    new_table->hmax = hmax;
+    new_table->hash_function = hash_function;
+    new_table->compare_function = compare_function;
+    new_table->size = 0;
+
+    allocate_buckets(new_table);
+
+    return new_table;
+}
+
+int32_t
+ht_has_key(hashtable_t *ht, void *key)
+{
+    if (!ht)
+        return 0;
+
+    unsigned int hash = ht->hash_function(key) % ht->hmax;
+
+    ll_node_t *node = ht->buckets[hash]->head;
+
+    while (node)
     {
-        ht_rehash(hashtable, curr->data);
-        curr = curr->next;
+        if (!ht->compare_function(key, ((info *)node->data)->key))
+            return 1;
+
+        node = node->next;
     }
 
-    // Free entries list
-    ll_free(&entries);
+    return 0;
+}
+
+void *
+ht_get(hashtable_t *ht, void *key)
+{
+    if (!ht)
+        return NULL;
+
+    unsigned int hash = ht->hash_function(key) % ht->hmax;
+
+    ll_node_t *node = ht->buckets[hash]->head;
+
+    while (node)
+    {
+        if (!ht->compare_function(key, ((info *)node->data)->key))
+            return ((info *)node->data)->value;
+
+        node = node->next;
+    }
+
+    return NULL;
+}
+
+linked_list_t *
+ht_convert_to_list(hashtable_t *ht)
+{
+    linked_list_t *merged_list = ll_create(ht->buckets[0]->data_size);
+
+    for (unsigned int i = 0; i < ht->hmax; i++)
+        ll_concat(merged_list, ht->buckets[i]);
+
+    return merged_list;
+}
+
+void ht_rehash(hashtable_t *ht, info *entry)
+{
+    if (!ht)
+        return;
+
+    unsigned int hash = ht->hash_function(entry->key) % ht->hmax;
+    linked_list_t *list = ht->buckets[hash];
+
+    ll_add_nth_node(list, 0, entry);
+}
+
+void ht_resize(hashtable_t *ht)
+{
+    linked_list_t *ht_content = ht_convert_to_list(ht);
+    ht->hmax = 2 * ht->hmax;
+
+    ht->buckets = realloc(ht->buckets, ht->hmax * sizeof(linked_list_t *));
+    allocate_buckets(ht);
+
+    for (ll_node_t *node = ht_content->head; node; node = node->next)
+        ht_rehash(ht, node->data);
+
+    ll_free(&ht_content, ll_free_node);
 }
 
 void ht_put(hashtable_t *ht, void *key, unsigned int key_size,
             void *value, unsigned int value_size)
 {
-    // If the load factor exceeds 1 we resize
-    double load_factor = ht->size / ht->hmax;
+    if (!ht)
+        return;
+
+    double load_factor = (double)ht->size / ht->hmax;
     if (load_factor > 1)
-        ht_resize(ht);
-
-    // Get hash
-    int index = ht->hash_function(key) % ht->hmax;
-
-    // Make a copy of the key
-    void *copy_key = malloc(key_size);
-    memcpy(copy_key, key, key_size);
-
-    ll_node_t *aux = ht->buckets[index]->head;
-    while (aux)
     {
-        // If we have the same entry before we update it
-        if (ht->compare_function(key, ((info *)aux->data)->key) == 0 && !ht->compare_function(value, ((info *)aux->data)->value) != 0)
+        printf("///////////////////////////////////RESIZING NOW------ at HMAX %d\n", ht->hmax);
+        ht_resize(ht);
+    }
+
+    unsigned int hash = ht->hash_function(key) % ht->hmax;
+
+    linked_list_t *list = ht->buckets[hash];
+    ll_node_t *node = list->head;
+
+    while (node)
+    {
+        if (!ht->compare_function(key, ((info *)node->data)->key))
         {
-            // Free initial value and put over the new one
-            free(((info *)aux->data)->value);
-            ((info *)aux->data)->value = malloc(value_size);
-            memcpy(((info *)aux->data)->value, value, value_size);
-            free(copy_key);
+            ((info *)node->data)->value =
+                realloc(((info *)node->data)->value, value_size);
+            memcpy(((info *)node->data)->value, value, value_size);
             return;
         }
-        aux = aux->next;
+
+        node = node->next;
     }
 
-    // Create a new entry
-    info *data = malloc(sizeof(info));
-    data->key = malloc(key_size);
-    data->value = malloc(value_size);
+    info *new_info = malloc(sizeof(info));
 
-    // Put memory in the new entry
-    memcpy(data->key, copy_key, key_size);
-    memcpy(data->value, value, value_size);
+    new_info->key = malloc(key_size);
+    memcpy(new_info->key, key, key_size);
 
-    // Add node to the bucket in charge
-    ll_add_nth_node(ht->buckets[index], ht->buckets[index]->size, data);
+    new_info->value = malloc(value_size);
+    memcpy(new_info->value, value, value_size);
 
-    // Increase hashmap size
     ht->size++;
 
-    // Free the copy
-    free(copy_key);
-    free(data);
+    ll_add_nth_node(list, 0, new_info);
+    free(new_info);
 }
 
-void *ht_remove_entry(hashtable_t *ht, void *key)
+void ht_remove_entry(hashtable_t *ht, void *key)
 {
-    // Get hash
-    int index = ht->hash_function(key) % ht->hmax;
-    ll_node_t *aux = ht->buckets[index]->head;
-    int n = 0;
-    void *res;
-    while (aux)
-    {
-        if (!ht->compare_function(key, ((info *)aux->data)->key))
-        {
-            // Remove the node from the bucket
-            ll_node_t *removed = ll_remove_nth_node(ht->buckets[index], n);
+    if (!ht)
+        return;
 
-            // Free the removed values
-            free(((info *)removed->data)->key);
-            res = ((info *)removed->data)->value;
-            free(removed->data);
-            free(removed);
+    unsigned int hash = ht->hash_function(key) % ht->hmax;
+
+    size_t i = 0;
+    linked_list_t *list = ht->buckets[hash];
+    ll_node_t *node = list->head;
+
+    while (node)
+    {
+        if (!ht->compare_function(key, ((info *)node->data)->key))
+        {
+            node = ll_remove_nth_node(list, i);
+            free(((info *)node->data)->value);
+            free(((info *)node->data)->key);
+            free(node->data);
+            free(node);
             break;
         }
-        aux = aux->next;
-
-        n++;
+        i++;
+        node = node->next;
     }
-    return res;
+
+    ht->size--;
 }
 
 void ht_free(hashtable_t *ht)
 {
-    for (unsigned int i = 0; i < ht->hmax; i++)
-    {
-        // Work for each bucket
-        ll_node_t *aux = ht->buckets[i]->head;
+    ll_node_t *node = NULL;
 
-        while (aux)
+    for (size_t i = 0; i < ht->hmax; i++)
+    {
+        while (ll_get_size(ht->buckets[i]) > 0)
         {
-            // Free every node and key and data
-            info *data = (info *)aux->data;
-            free(data->key);
-            free(data->value);
-            aux = aux->next;
+            node = ll_remove_nth_node(ht->buckets[i], 0);
+
+            free(((info *)node->data)->key);
+            free(((info *)node->data)->value);
+            free(node->data);
+            free(node);
         }
-        // Free the bucket
-        ll_free(&ht->buckets[i]);
+        free(ht->buckets[i]);
     }
 
-    // Free all buckets and hashtable
     free(ht->buckets);
-    free(ht);
 }
 
-unsigned int
-ht_get_size(hashtable_t *ht)
+void ll_free_node_with_hashtables(void *node)
 {
-    // Function to get size of ht
-    if (ht == NULL)
-        return 0;
+    ll_node_t *__node = node;
 
-    return ht->size;
+    ht_free(((info *)__node->data)->value);
+    free(((info *)__node->data)->value);
+    free(((info *)__node->data)->key);
+    free(((ll_node_t *)__node)->data);
+    free(__node);
 }
 
-unsigned int
-ht_get_hmax(hashtable_t *ht)
+void free_ll_of_ht(linked_list_t *hashtables)
 {
-    // Function to get hmax of hashtable
-    if (ht == NULL)
-        return 0;
-
-    return ht->hmax;
+    ll_free(&hashtables, ll_free_node_with_hashtables);
 }

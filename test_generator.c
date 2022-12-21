@@ -398,11 +398,11 @@ long main()
 
         // create some mixed commands with bigger numbers of mid size
         if (i + 1 > 20 && i + 1 <= 25)
-            mix_test(in_string, magnitude_array[i], randlong(9, 18), randlong(5, 15), 200, randlong(8, 12), 420, randlong(1000, 2000), MAX_NUMBER);
+            mix_test(in_string, magnitude_array[i], randlong(9, 18), randlong(5, 15), 200, randlong(8, 12), 420, randlong(9000, 11000), MAX_NUMBER);
 
         // create some mixed commands with bigger numbers of big sizes
         if (i + 1 > 25 && i + 1 <= 30)
-            mix_test(in_string, magnitude_array[i], randlong(9, 18), randlong(5, 15), 200, randlong(8, 12), 420, randlong(1000, 2000), MAX_NUMBER);
+            mix_test(in_string, magnitude_array[i], randlong(9, 18), randlong(5, 15), 200, randlong(8, 12), 420, randlong(10000, 15000), MAX_NUMBER);
 
         // mix_test(in_string, magnitude_array[i], randlong(15, 25), randlong(12, 15), 700, randlong(16, 20), 920, randlong(1500, 2500), MAX_NUMBER);
 
