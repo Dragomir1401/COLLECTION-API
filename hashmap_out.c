@@ -82,12 +82,12 @@ char *parse_output_file(long i)
     else
         string[12] = '\0';
 
-    strcat(string, ".out_h");
+    strcat(string, ".out");
 
     if (i_cop <= 9)
-        string[17] = '\0';
+        string[15] = '\0';
     else
-        string[18] = '\0';
+        string[16] = '\0';
 
     return string;
 }

@@ -12,7 +12,7 @@ int compare_ints(int a, int b)
     return a - b;
 }
 
-// Creeaza structura Treap-ului
+// Create treap structure
 Treap_tree *treap_create()
 {
     srand(time(NULL));
@@ -46,10 +46,8 @@ void treap_free(Treap_tree *tree)
     }
     free(tree);
 }
-/* Creeaza un nod
- * @param1: Valoarea ce trebuie pusa in nod.
- * @param2: Numarul de octeti pe care scrie valoarea.
- */
+
+
 Node *node_create(int value)
 {
     Node *node = malloc(sizeof(Node));
@@ -58,10 +56,9 @@ Node *node_create(int value)
         return NULL;
     }
 
-    // Copiere octet cu octet din value, in nodul curent.
     node->data = value;
 
-    // Nodurile frunze au inaltimea 0.
+    // leaf have height 0
     node->priority = rand() % MAX_PRIORITY;
     node->left = NULL;
     node->right = NULL;
@@ -78,7 +75,6 @@ int max(int a, int b)
     return b;
 }
 
-// Nodurile NULL au prioritatea -1 pentru a pastra proprietatea de max-heap.
 int priority(Node *node)
 {
     if (node == NULL)
@@ -87,16 +83,8 @@ int priority(Node *node)
     }
     return node->priority;
 }
-/* Rotire dreapta
- * Pentru a nu fi nevoie sa mentinem pointer catre nodul parinte,
- * se vor folosi pointeri la noduri
- *
- *      node  			    lson
- *     /    \			   /    \
- *   lson    y ---> x    node
- *   /  \     		      /   \
- *  x   lrson         lrson  y
- */
+
+
 void rotate_right(Node **node)
 {
     Node *lson = (*node)->left;
@@ -109,16 +97,8 @@ void rotate_right(Node **node)
     // new root
     *node = lson;
 }
-/* Rotire stanga
- * Pentru a nu fi nevoie sa mentinem pointer catre nodul parinte,
- * se vor folosi pointeri la noduri
- *
- *     node  			    rson
- *    /    \			   /    \
- *   x     rson    --->  node    y
- *         /   \		 /   \
- *       rlson  y       x   rlson
- */
+
+
 void rotate_left(Node **node)
 {
     Node *rson = (*node)->right;
@@ -132,13 +112,7 @@ void rotate_left(Node **node)
     *node = rson;
 }
 
-/* Inserare in Treap
- *
- * @param1: Nodul radacina al subarborelui din parcurgerea recursiva.
- * @param2: Valoare de adaugat in Treap.
- * @param3: Numarul de octeti pe care se scrie valoarea.
- * @param4: Functia de comparare pentru datele din Treap.
- */
+
 void treap_insert(Node **node, int value, int (*compar)(int, int))
 {
     if ((*node) == NULL)
@@ -169,12 +143,7 @@ void treap_insert(Node **node, int value, int (*compar)(int, int))
     }
 }
 
-/* Stergere din Treap
- *
- * @param1: Nodul radacina al subarborelui din parcurgerea recursiva.
- * @param2: Valoare de adaugat in Treap.
- * @param3: Functia de comparare pentru datele din Treap.
- */
+
 void treap_delete(Node **node, int value, int (*compar)(int, int))
 {
     // Check if the tree is empty

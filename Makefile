@@ -33,7 +33,7 @@ run-best: hashmap.c hashmap_singular.c
 	./best
 
 pack:
-	zip -FSr 312CA_Dragomir_Andrei_Tema2.zip README Makefile *.c *.h
+	zip -FSr Dragomir.Andrei.zip README Makefile *.c *.h COMPARATIE_HT_TREAP.ods time_* 2.pdf in out compute.sh test.in test.out
 
 clean:
 	rm -f $(TARGETS)

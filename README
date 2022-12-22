@@ -1,0 +1,130 @@
+______________________________
+|                            |
+|   Copyright                |
+|      Dragomir Andrei 2022  |
+|                            |
+\____________________________/
+
+----------------------------------------------------------------------------
+Nume: Dragomir Andrei
+Grupa: 322CA
+
+----------------------------------------------------------------------------
+-----------------------------API-UL UNEI MULTIMI----------------------------
+----------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------------
+
+
+____________Descriere_____________
+
+
+    Acest proiect reprezinta compararea si analizarea a doua structuri de date
+reprezentative pentru implementarea API-ului unei multimi ce contine urmatorele
+comenzi:
+
+                    0 a - adauga elementul a
+                    1 a - elimina elementul a
+                    2 a - cauta elementul a
+                    3 a b - inlucieste elementul a cu b
+                    4 - afiseaza integral multimea in orice ordine
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+------------------------------------------------------------------------------
+
+
+____________Componenta arhivei__________________
+
+
+    Arhiva contine:
+
+    - documentatia finala in format pdf
+
+    - sursele algoritmilor: 
+
+    hashmap.c si hashmap.h - implementarea efectiva a hashmapului
+
+    treap.c si treap.h - implementarea efectiva a treapului
+
+    hashmap_out.c  -  genereaza outputul pentru toate testele din input folosind
+                        tabel de dispersie
+
+    hashmap_singular.c - genereaza outputul in test.out pentru un test singular 
+                        din test.in din rootul arhivei
+
+    treap_out.c  -  genereaza outputul pentru toate testele din input folosind
+                        treap
+
+    treap_singular.c - genereaza outputul in test.out pentru un test singular 
+                        din test.in din rootul arhivei
+
+    test_generator.c - generator de teste facut manual cu o diversitate de posibilitati
+                        de customizare a testelor
+
+    Makefile - fisier makefile cu urmatoarele reguli:
+
+            ~~ make run-p1 - ruleaza hashmapul pe test.in
+            ~~ make run-p2 - ruleaza hashmapul pe test.out
+            ~~ make out-p1 - genereaza toate outputurile in out/ folosind hashmap
+            ~~ make out-p2 - genereaza toate outputurile in out/ folosind treap
+            ~~ make pack - genereaza arhiva pentru submisie
+            ~~ make clean - sterge fisierele obiect
+
+    in/ si out/ - directoarele cu inputuri/outputuri
+
+    COMPARATIE_HT_TREAP.ods - excel cu comparatia complexitatii temporale
+
+    compute.sh - script care ruleaza de 5 ori fiecare algoritm pe fiecare test
+                pentru a putea genera o medie
+
+    time_results_hashmap.txt, time_results_hashmap_with_print.txt, 
+    time_results_treap.txt, time_results_treap_with_print.txt  -  fisierele cu timpii
+                                                                rezultati de compute.sh
+
+    
+
+------------------------------------------------------------------------------
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+____________Implementare____________
+
+
+    Implementarile de hashmap si treap sunt facute individual de catre mine, singura
+preluare fiind functia de hash de la linkul: 
+
+https://stackoverflow.com/questions/664014/what-integer-hash-function-are-good-that-accepts-an-integer-hash-key
+
+
+
+
+-------------------------------------------------------------------------------
+
+
+
+
+------------------------------------------------------------------------------
+
+_____________Comments_____________
+
+
+    Implementarea ar fi fost mai usoara daca alegeam un limbaj mai accesibil
+precum java, deoarece in C a trebuit sa am grija de managementul memoriei
+si orice alt detaliu de limbaj low end. Probleme mi-a impus hashtablelul
+cand foloseam o functie de hash nepotrivita, comparam adresele lor in loc 
+de numere sau resizeul care ingreuna complexitatea temporala.
+
+
+------------------------------------------------------------------------------

@@ -131,6 +131,7 @@ void ll_free_direct(linked_list_t **pp_list)
     *pp_list = NULL;
 }
 
+// good hash function
 unsigned int hash_function(void *a)
 {
     unsigned int x = *(unsigned int *)a;
@@ -139,6 +140,13 @@ unsigned int hash_function(void *a)
     x = (x >> 16) ^ x;
     return x;
 }
+
+// bad hash function
+// unsigned int hash_function(void *a) {
+//     unsigned int x = *(unsigned int *)a;
+
+//     return x % 17;
+// }
 
 void ll_concat(linked_list_t *dest, linked_list_t *src)
 {
@@ -174,6 +182,7 @@ void ll_free_node(void *node)
     free(((ll_node_t *)node)->data);
     free(node);
 }
+
 int is_prime(int x)
 {
     if (x % 2)
@@ -183,6 +192,7 @@ int is_prime(int x)
             return 0;
     return 1;
 }
+
 int nearest_prime(int x)
 {
     for (int res = x; res > 0; res++)

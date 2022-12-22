@@ -168,3 +168,35 @@ TEST 29 took 48.706426 seconds to execute.
 TEST 30 took 53.198815 seconds to execute.
 
 
+ITERATION FOR COMPUTING AVERAGE
+
+TEST 1 took 0.000049 seconds to execute.
+TEST 2 took 0.000033 seconds to execute.
+TEST 3 took 0.000031 seconds to execute.
+TEST 4 took 0.000037 seconds to execute.
+TEST 5 took 0.000095 seconds to execute.
+TEST 6 took 0.000065 seconds to execute.
+TEST 7 took 0.000063 seconds to execute.
+TEST 8 took 0.000059 seconds to execute.
+TEST 9 took 0.000084 seconds to execute.
+TEST 10 took 0.000071 seconds to execute.
+TEST 11 took 0.000180 seconds to execute.
+TEST 12 took 0.000756 seconds to execute.
+TEST 13 took 0.000724 seconds to execute.
+TEST 14 took 0.000721 seconds to execute.
+TEST 15 took 0.000864 seconds to execute.
+TEST 16 took 0.185200 seconds to execute.
+TEST 17 took 0.194278 seconds to execute.
+TEST 18 took 0.248180 seconds to execute.
+TEST 19 took 0.274024 seconds to execute.
+TEST 20 took 0.350670 seconds to execute.
+TEST 21 took 0.003654 seconds to execute.
+TEST 22 took 0.020358 seconds to execute.
+TEST 23 took 0.020058 seconds to execute.
+TEST 24 took 0.009170 seconds to execute.
+TEST 25 took 0.377892 seconds to execute.
+TEST 26 took 0.406501 seconds to execute.
+TEST 27 took 30.348638 seconds to execute.
+TEST 28 took 39.167356 seconds to execute.
+TEST 29 took 45.980046 seconds to execute.
+TEST 30 took 56.583043 seconds to execute.

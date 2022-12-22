@@ -343,7 +343,7 @@ void mix_test(char *in_file, long magnitude, long delete_frequency,
 
 long main()
 {
-    long *magnitude_array = malloc(30 * sizeof(long));
+    long *magnitude_array = malloc(31 * sizeof(long));
     for (long i = 0; i < 30; i++)
     {
         if (i < 10)
